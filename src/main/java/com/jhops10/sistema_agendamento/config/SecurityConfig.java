@@ -17,18 +17,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Desativa o CSRF usando lambda
+                .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth
-                        // Permitir acesso público para os endpoints de autenticação
-                        .requestMatchers("/auth/register", "/auth/login").permitAll()
-                        // Somente CLIENTES e PROFISSIONAIS podem acessar o sistema de agendamento
+                        .requestMatchers("/auth/register", "/auth/login").permitAll()  // Permitir acesso público
                         .requestMatchers("/agendamento/**").hasAnyRole("CLIENTE", "PROFISSIONAL")
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form   // Configuração de login via formulário
+                .formLogin(form -> form.permitAll());
+                /*.formLogin(form -> form
                         .loginPage("/auth/login")  // Página de login personalizada
-                        .permitAll()
-                );
+                        .permitAll()  // Permitir acesso ao formulário de login
+                        .defaultSuccessUrl("/dashboard", true)  // Redirecionamento após login bem-sucedido
+                );*/
 
         return http.build();
     }
@@ -44,5 +44,7 @@ public class SecurityConfig {
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         return authenticationManagerBuilder.build();
     }
+
+
 
 }
