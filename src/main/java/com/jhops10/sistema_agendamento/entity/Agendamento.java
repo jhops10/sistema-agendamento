@@ -2,6 +2,8 @@ package com.jhops10.sistema_agendamento.entity;
 
 import com.jhops10.sistema_agendamento.entity.enums.StatusAgendamento;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -13,14 +15,23 @@ public class Agendamento {
     private Long id;
 
     @ManyToOne
+    @NotNull(message = "O cliente é obrigatório.")
     private Usuario cliente;
 
+
     @ManyToOne
+    @NotNull(message = "O Serviço é obrigatório.")
     private Servico servico;
 
+    @NotNull(message = "O id do profisisonal é obrigatório.")
+    private Long profissionalId;
+
+    @NotNull(message = "A data e hora do agendamento são obrigatórias.")
+    @Future(message = "A data e hora do agendamento devem estar no futuro.")
     private LocalDateTime dataHora;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "O status do agendamento é obrigatório")
     private StatusAgendamento status;
 
     public Agendamento() {

@@ -2,6 +2,7 @@ package com.jhops10.sistema_agendamento.controller;
 
 import com.jhops10.sistema_agendamento.entity.Agendamento;
 import com.jhops10.sistema_agendamento.service.AgendamentoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Agendamento> criarAgendamento(@RequestBody Agendamento agendamento) {
+    public ResponseEntity<Agendamento> criarAgendamento(@Valid @RequestBody Agendamento agendamento) {
         var novoAgendamento = agendamentoService.criarAgendamento(agendamento);
         return ResponseEntity.ok(novoAgendamento);
     }
